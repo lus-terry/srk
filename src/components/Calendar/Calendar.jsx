@@ -97,20 +97,33 @@ const renderCalendar = () => {
             if (i === 0 && j < startDay - 1) {
                 week.push(<td key={j} className="empty"></td>);
             } else if (day <= daysInMonth) {
-                let event = false;
-                sortedClonedEvents.map(e => {
-                    const eventStartDate = new Date(e.startTime);
-                    if (eventStartDate.getDate() === day && eventStartDate.getMonth() === currentDate.getMonth() && eventStartDate.getFullYear() === currentDate.getFullYear()){
+              let event = false;
+              sortedClonedEvents.map(e => {
+                  const eventStartDate = new Date(e.startTime);
+                  if (eventStartDate.getDate() === day && eventStartDate.getMonth() === currentDate.getMonth() && eventStartDate.getFullYear() === currentDate.getFullYear()) {
+                      const startHour = eventStartDate.getHours().toString().padStart(2, '0');
+                      const startMinutes = eventStartDate.getMinutes().toString().padStart(2, '0');
+                      const endDate = new Date(e.endTime);
+                      const endHour = endDate.getHours().toString().padStart(2, '0');
+                      const endMinutes = endDate.getMinutes().toString().padStart(2, '0');
+
                       event = true;
-                      week.push(<td key={j} className="event">{e.name}</td>);
-                      }
-                      });
-                      if (!event) {
-                      week.push(<td key={j}>{day}</td>);
-                      }
-                      day++;
-                      } else {
-                      week.push(<td key={j} className="empty"></td>);
+                      week.push(<td key={j}>
+                          <div className="day">{day}</div>
+                          <div className="event">
+                              <div>{e.name}</div>
+                              <div>{startHour}:{startMinutes} - {endHour}:{endMinutes}</div>
+                <div>{e.classroom}</div>
+                </div>
+                </td>);
+                }
+                });
+                if (!event) {
+                week.push(<td key={j}>{day}</td>);
+                }
+                day++;
+                } else {
+                week.push(<td key={j} className="empty"></td>);
           }}
           calendar.push(<tr key={i}>{week}</tr>);
       }
