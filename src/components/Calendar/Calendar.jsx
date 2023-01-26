@@ -23,54 +23,48 @@ const cloneRecurringEvents = (events) => {
   return clonedEvents;
 }
 
+const subjects = ["Programiranje 1", "Razvoj web aplikacija"];
+
 const events = [
-  {
-      "_createdAt": "2023-01-23T17:33:32Z",
-      "_id": "c484abd7-dcd4-40e9-8d92-e019bc149860",
-      "_rev": "UoBbVPrnrJfRgjW9v301Tp",
-      "_type": "event",
-      "_updatedAt": "2023-01-23T18:04:51Z",
-      "classroom": "P10",
-      "endTime": "2023-01-24T20:04:00.000Z",
-      "event_type": {
-          "_ref": "d6c5bdb9-b475-4b51-9126-7f90ee179917",
-          "_type": "reference"
+    {
+        "_createdAt": "2023-01-22T02:07:18Z",
+        "_id": "f0e31525-d39c-4806-969c-fd58cd703586",
+        "_rev": "EBTSvGxcQfdrSaMROA9MuI",
+        "_type": "event",
+        "classroom": "U10",
+        "endTime": "2023-01-23T03:07:00.000Z",
+        "event_type": "Predavanje",
+        "isRecurring": true,
+        "name": "Programiranje 1",
+        "recurring_end_date": "2023-03-27",
+        "startTime": "2023-01-23T02:06:00.000Z",
+        "subject": "Programiranje 1",
+        "_updatedAt": "2023-01-26T18:06:27.562Z"
       },
-      "isRecurring": false,
-      "name": "test2",
-      "startTime": "2023-01-24T18:04:00.000Z",
-      "subject": {
-          "_ref": "7122e6e9-dbb5-4874-8921-62c6109c7278",
-          "_type": "reference"
+      {
+        "_createdAt": "2023-01-23T17:33:32Z",
+        "_id": "c484abd7-dcd4-40e9-8d92-e019bc149860",
+        "_rev": "3hMG0LxcI5T7B5ziDCUvDx",
+        "_type": "event",
+        "_updatedAt": "2023-01-26T18:06:11Z",
+        "classroom": "P10",
+        "endTime": "2023-01-24T20:04:00.000Z",
+        "event_type": "Ispit",
+        "isRecurring": false,
+        "name": "RWA",
+        "startTime": "2023-01-24T18:04:00.000Z",
+        "subject": "Razvoj web aplikacija"
       }
-  },
-  {
-      "_createdAt": "2023-01-22T02:07:18Z",
-      "_id": "f0e31525-d39c-4806-969c-fd58cd703586",
-      "_rev": "SW5VSYHZIB1w1Rkb4w74z4",
-      "_type": "event",
-      "_updatedAt": "2023-01-23T17:25:28Z",
-      "classroom": "U10",
-      "endTime": "2023-01-23T03:07:00.000Z",
-      "event_type": {
-          "_ref": "63e2cafd-522a-49c2-b933-acf5aadf1d13",
-          "_type": "reference"
-      },
-      "isRecurring": true,
-      "name": "Test",
-      "recurring_end_date": "2023-03-27",
-      "startTime": "2023-01-23T02:06:00.000Z",
-      "subject": {
-      "_ref": "7122e6e9-dbb5-4874-8921-62c6109c7278",
-      "_type": "reference"
-    }
-  }
 ]
       
 const clonedEvents = cloneRecurringEvents(events);
 const sortedClonedEvents = clonedEvents.slice().sort((a, b) => {
   return new Date(a.startTime) - new Date(b.startTime);
 });
+
+// Filter based on the user's subjects
+const filteredEvents = sortedClonedEvents.filter(event => subjects.includes(event.subject));
+console.log(filteredEvents);
 
 const Calendar = (props) => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -98,7 +92,7 @@ const renderCalendar = () => {
                 week.push(<td key={j} className="empty"></td>);
             } else if (day <= daysInMonth) {
               let event = false;
-              sortedClonedEvents.map(e => {
+              filteredEvents.map(e => {
                   const eventStartDate = new Date(e.startTime);
                   if (eventStartDate.getDate() === day && eventStartDate.getMonth() === currentDate.getMonth() && eventStartDate.getFullYear() === currentDate.getFullYear()) {
                       const startHour = eventStartDate.getHours().toString().padStart(2, '0');
