@@ -51,7 +51,7 @@ const events = [
         "endTime": "2023-01-24T20:04:00.000Z",
         "event_type": "Ispit",
         "isRecurring": false,
-        "name": "RWA",
+        "name": "RWT",
         "startTime": "2023-01-24T18:04:00.000Z",
         "subject": "Razvoj web aplikacija"
       }
@@ -64,7 +64,6 @@ const sortedClonedEvents = clonedEvents.slice().sort((a, b) => {
 
 // Filter based on the user's subjects
 const filteredEvents = sortedClonedEvents.filter(event => subjects.includes(event.subject));
-console.log(filteredEvents);
 
 const Calendar = (props) => {
   const [currentDate, setCurrentDate] = useState(new Date());
