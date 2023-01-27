@@ -1,71 +1,49 @@
-import React, { useState } from 'react';
-
-const cloneRecurringEvents = (events) => {
-  const clonedEvents = [];
-  for (let event of events) {
-      if (!event.isRecurring) {
-          clonedEvents.push(event);
-      } else {
-          const startTime = new Date(event.startTime);
-          const endTime = new Date(event.endTime);
-          const recurringEndDate = new Date(event.recurring_end_date);
-          while (startTime <= recurringEndDate) {
-              const clonedEvent = { ...event };
-              clonedEvent.startTime = new Date(startTime);
-              clonedEvent.endTime = new Date(endTime);
-              clonedEvent.isRecurring = false;
-              clonedEvents.push(clonedEvent);
-              startTime.setDate(startTime.getDate() + 7);
-              endTime.setDate(endTime.getDate() + 7);
-          }
-      }
-  }
-  return clonedEvents;
-}
+import React, { useState, useEffect } from 'react';
+import { fetchDataFromSanity } from '../../services/Sanity';
 
 const subjects = ["Programiranje 1", "Razvoj web aplikacija"];
 
-const events = [
-    {
-        "_createdAt": "2023-01-22T02:07:18Z",
-        "_id": "f0e31525-d39c-4806-969c-fd58cd703586",
-        "_rev": "EBTSvGxcQfdrSaMROA9MuI",
-        "_type": "event",
-        "classroom": "U10",
-        "endTime": "2023-01-23T03:07:00.000Z",
-        "event_type": "Predavanje",
-        "isRecurring": true,
-        "name": "Programiranje 1",
-        "recurring_end_date": "2023-03-27",
-        "startTime": "2023-01-23T02:06:00.000Z",
-        "subject": "Programiranje 1",
-        "_updatedAt": "2023-01-26T18:06:27.562Z"
-      },
-      {
-        "_createdAt": "2023-01-23T17:33:32Z",
-        "_id": "c484abd7-dcd4-40e9-8d92-e019bc149860",
-        "_rev": "3hMG0LxcI5T7B5ziDCUvDx",
-        "_type": "event",
-        "_updatedAt": "2023-01-26T18:06:11Z",
-        "classroom": "P10",
-        "endTime": "2023-01-24T20:04:00.000Z",
-        "event_type": "Ispit",
-        "isRecurring": false,
-        "name": "RWT",
-        "startTime": "2023-01-24T18:04:00.000Z",
-        "subject": "Razvoj web aplikacija"
-      }
-]
-      
-const clonedEvents = cloneRecurringEvents(events);
-const sortedClonedEvents = clonedEvents.slice().sort((a, b) => {
-  return new Date(a.startTime) - new Date(b.startTime);
-});
-
-// Filter based on the user's subjects
-const filteredEvents = sortedClonedEvents.filter(event => subjects.includes(event.subject));
-
 const Calendar = (props) => {
+  // calls function to fetch events from Sanity
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    fetchDataFromSanity()
+      .then((data) => setEvents(data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  // Clones recurring events, adjusting start/end time and marking as non-recurring
+  const cloneRecurringEvents = (events) => {
+    const clonedEvents = [];
+    for (let event of events) {
+        if (!event.isRecurring) {
+            clonedEvents.push(event);
+        } else {
+            const startTime = new Date(event.startTime);
+            const endTime = new Date(event.endTime);
+            const recurringEndDate = new Date(event.recurring_end_date);
+            while (startTime <= recurringEndDate) {
+                const clonedEvent = { ...event };
+                clonedEvent.startTime = new Date(startTime);
+                clonedEvent.endTime = new Date(endTime);
+                clonedEvent.isRecurring = false;
+                clonedEvents.push(clonedEvent);
+                startTime.setDate(startTime.getDate() + 7);
+                endTime.setDate(endTime.getDate() + 7);
+            }
+        }
+    }
+    return clonedEvents;
+  }
+        
+  const clonedEvents = cloneRecurringEvents(events);
+  const sortedClonedEvents = clonedEvents.slice().sort((a, b) => {
+    return new Date(a.startTime) - new Date(b.startTime);
+  });
+  
+  // Filter based on the user's subjects
+  const filteredEvents = sortedClonedEvents.filter(event => subjects.includes(event.subject));
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -147,4 +125,3 @@ return (
 }
 
 export default Calendar;
-      
