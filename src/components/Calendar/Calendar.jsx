@@ -2,6 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { fetchDataFromSanity } from '../../services/Sanity';
 import { cloneRecurringEvents } from './cloneRecurringEvents';
 
+import { EventDiv } from '../styles/Event.style';
+import { EventCell } from '../styles/Event.style';
+import { EventDayNumber } from '../styles/Event.style';
+import { Event } from '../styles/Event.style';
+import { EventName } from '../styles/Event.style';
+import { EventTime } from '../styles/Event.style';
+import { EventClassroom } from '../styles/Event.style';
+import { DayNumber } from '../styles/DayNumber.styled';
+import {Cell} from '../styles/Cell.styled';
+
+import './calendarStyles/Content.module.css';
+import { StyledCalendar } from '../styles/Calendar.styled';
+
+
 const subjects = ["Programiranje 1", "Razvoj web aplikacija"];
 
 const Calendar = (props) => {
@@ -45,7 +59,7 @@ const renderCalendar = () => {
         let week = [];
         for (let j = 0; j < 7; j++) {
             if (i === 0 && j < startDay - 1) {
-                week.push(<td key={j} className="empty"></td>);
+              week.push(<td key={j} className="empty"></td>);
             } else if (day <= daysInMonth) {
               let event = false;
               filteredEvents.map(e => {
@@ -58,26 +72,30 @@ const renderCalendar = () => {
                       const endMinutes = endDate.getMinutes().toString().padStart(2, '0');
 
                       event = true;
-                      week.push(<td key={j}>
-                          <div className="day">{day}</div>
-                          <div className="event">
-                              <div>{e.name}</div>
-                              <div>{startHour}:{startMinutes} - {endHour}:{endMinutes}</div>
-                <div>{e.classroom}</div>
-                </div>
-                </td>);
+                      week.push(<EventCell key={j}>
+                        <EventDiv>
+                        <EventDayNumber>{day}</EventDayNumber>
+                        <Event>
+                            <EventName>{e.name}</EventName>
+                            <EventTime>{startHour}:{startMinutes} - {endHour}:{endMinutes}</EventTime>
+                            <EventClassroom>{e.classroom}</EventClassroom>
+                        </Event>
+                        </EventDiv>
+                         
+                </EventCell>);
                 }
                 });
                 if (!event) {
-                week.push(<td key={j}>{day}</td>);
+                week.push(<DayNumber key={j}>{day}</DayNumber>);
                 }
                 day++;
                 } else {
-                week.push(<td key={j} className="empty"></td>);
+                week.push(<td key={j}></td>);
           }}
           calendar.push(<tr key={i}>{week}</tr>);
       }
       return (
+        
         <table>
             <thead>
                 <tr>
@@ -85,7 +103,7 @@ const renderCalendar = () => {
                     <th colSpan="5">{months[currentDate.getMonth()]} {currentDate.getFullYear()}</th>
                     <th onClick={handleNextMonth}>{'>'}</th>
                 </tr>
-                <tr>
+                <tr className='noBorder'>
                     {days.map((day, index) => <th key={index}>{day}</th>)}
                 </tr>
             </thead>
@@ -93,13 +111,14 @@ const renderCalendar = () => {
                 {calendar}
             </tbody>
         </table>
+       
     );
 }
 
 return (
-    <div className="calendar">
+    <StyledCalendar>
       {renderCalendar()}
-    </div>
+    </StyledCalendar>
   );
 }
 
