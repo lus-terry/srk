@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
 import Calendar from './Calendar/Calendar';
-
-
-import Navbar from './Navbar';
+import Login from './Login'
 import './App.css'
-import Sidebar from './Sidebar';
+import Navbar from './Navbar';
 
-const App = () => {
+import './Login'
+import './Calendar/Calendar'
+import { Route, Routes } from "react-router-dom"
+
+
+
+function App() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   return (
+    <>
+
+  <Navbar />
     <div className='App'>
-      <Sidebar/>
-      <Navbar />
-      <Calendar currentDate={currentDate} />
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Calendar currentDate={currentDate} />} />
+          <Route path="/login" element={<Login/>} />
+        </Routes>
+
+      </div>
+      <Calendar currentDate={currentDate} />  
     </div>
+    </>
+   
   );
 }
 
-export default App;
+export default App
