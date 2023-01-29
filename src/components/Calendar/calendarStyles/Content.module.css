@@ -33,13 +33,14 @@ padding: 0;
 
 thead tr:nth-of-type(1) {
   
+  
   line-height: 1.7;
 
   text-align: center;
   font-family: Garamond;
   
   font-size:40px;
-  background-color: #5072A7;
+
   color: 	#282828
   
 }

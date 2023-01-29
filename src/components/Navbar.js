@@ -1,13 +1,17 @@
-import React from 'react';
-import './App.css'
 
-const Sidebar = () => {
-  return (
-    <div className='Navbar'>
-      <h2>Sidebar</h2>
-      <p>This is where additional information or navigation options can go.</p>
-    </div>
-  );
+
+export default function Navbar() {
+
+
+
+  return <nav className="Navbar"> 
+  <a href="/" className="SiteTitle"> Site name</a>
+  <ul>
+
+    <li>
+      <a href="/logout">logout</a>
+    </li>
+  </ul>
+  </nav>
+
 }
-
-export default Sidebar;

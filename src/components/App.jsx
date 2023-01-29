@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import Calendar from './Calendar/Calendar';
 
-import Sidebar from './Sidebar';
+
 import Navbar from './Navbar';
 import './App.css'
+import Sidebar from './Sidebar';
 
 const App = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   return (
     <div className='App'>
-      <Sidebar />
+      <Sidebar/>
       <Navbar />
       <Calendar currentDate={currentDate} />
     </div>

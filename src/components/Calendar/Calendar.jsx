@@ -95,37 +95,36 @@ const renderCalendar = () => {
           calendar.push(<tr key={i}>{week}</tr>);
       }
       return (
-        
-        <table>
-            <thead>
-                <tr >
-                <th colSpan = "5">
-                
-                  <table className='headerDiv'>
-                    <tr>
-                    <th className='col1'>
-                  <div  onClick={handlePrevMonth} className="prev">{'<'}</div>
-                 </th>
-                 <th className='col2'>
-                   <div onClick={handleNextMonth} className="next">{'>'}</div>
-                 </th>
-                <th className='col3'>
-                <div  className="monthName">{months[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
-               
-                </th>
-                    </tr>
-                  </table>
-                
-                </th>
-                </tr>
-                <tr className='noBorder'>
-                    {days.map((day, index) => <th key={index}>{day}</th>)}
-                </tr>
-            </thead>
+        <div className='mainDiv'>
+
+   
+       
+        <table className='headerCalendar'>
+        <tr>
+          <th className='col1'>
+            <div  onClick={handlePrevMonth} className="prev">{'<'}</div>
+          </th>
+          <th className='col2'>
+            <div onClick={handleNextMonth} className="next">{'>'}</div>
+          </th>
+          <th className='col3' colSpan={5}>
+            <div  className="monthName">{months[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
+          </th>
+        </tr>
+        </table>
+        <table className='dayName'>
+        <tr >
+          {days.map((day, index) => <th key={index}>{day}</th>)}       
+        </tr>
+        </table>
+
+        <table  className="mainTable">
             <tbody>
                 {calendar}
             </tbody>
         </table>
+
+        </div>
        
     );
 }

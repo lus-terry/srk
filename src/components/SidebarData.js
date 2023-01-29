@@ -1,4 +1,4 @@
-import React from "react"
+/*import React from "react"
 import { Icon } from "react-icons"
 
 export const SidebarData = [
@@ -8,4 +8,4 @@ export const SidebarData = [
         link: "/"
 
     }
-]
+]*/
