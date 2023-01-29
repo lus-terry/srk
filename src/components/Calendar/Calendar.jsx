@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { fetchDataFromSanity } from '../../services/Sanity';
 import { cloneRecurringEvents } from './cloneRecurringEvents';
 
-import { EventDiv } from '../styles/Event.style';
-import { EventCell } from '../styles/Event.style';
-import { EventDayNumber } from '../styles/Event.style';
-import { Event } from '../styles/Event.style';
-import { EventName } from '../styles/Event.style';
-import { EventTime } from '../styles/Event.style';
-import { EventClassroom } from '../styles/Event.style';
-import { DayNumber } from '../styles/DayNumber.styled';
-import {Cell} from '../styles/Cell.styled';
+import { EventDiv } from './calendarStyles/Event.style';
+import { EventCell } from './calendarStyles/Event.style';
+import { EventDayNumber } from './calendarStyles/Event.style';
+import { Event } from './calendarStyles/Event.style';
+import { EventName } from './calendarStyles/Event.style';
+import { EventTime } from './calendarStyles/Event.style';
+import { EventClassroom } from './calendarStyles/Event.style';
+import { DayNumber } from './calendarStyles/DayNumber.styled';
+
 
 import './calendarStyles/Content.module.css';
-import { StyledCalendar } from '../styles/Calendar.styled';
+
 
 
 const subjects = ["Programiranje 1", "Razvoj web aplikacija"];
@@ -38,7 +38,7 @@ const Calendar = (props) => {
   const filteredEvents = sortedClonedEvents.filter(event => subjects.includes(event.subject));
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const handleNextMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
@@ -98,10 +98,25 @@ const renderCalendar = () => {
         
         <table>
             <thead>
-                <tr>
-                    <th onClick={handlePrevMonth}>{'<'}</th>
-                    <th colSpan="5">{months[currentDate.getMonth()]} {currentDate.getFullYear()}</th>
-                    <th onClick={handleNextMonth}>{'>'}</th>
+                <tr >
+                <th colSpan = "5">
+                
+                  <table className='headerDiv'>
+                    <tr>
+                    <th className='col1'>
+                  <div  onClick={handlePrevMonth} className="prev">{'<'}</div>
+                 </th>
+                 <th className='col2'>
+                   <div onClick={handleNextMonth} className="next">{'>'}</div>
+                 </th>
+                <th className='col3'>
+                <div  className="monthName">{months[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
+               
+                </th>
+                    </tr>
+                  </table>
+                
+                </th>
                 </tr>
                 <tr className='noBorder'>
                     {days.map((day, index) => <th key={index}>{day}</th>)}
@@ -116,9 +131,9 @@ const renderCalendar = () => {
 }
 
 return (
-    <StyledCalendar>
+    <div className='Calendar'>
       {renderCalendar()}
-    </StyledCalendar>
+    </div>
   );
 }
 

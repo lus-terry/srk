@@ -1,11 +1,15 @@
 import styled from "styled-components";
 
 export const DayNumber = styled.td`
- vertical-align: top;
+vertical-align: top;
  align:center;
-  //background-color:##D8D8D8;
+  
+  font-size: 18px;
   font-family: Arial, sans-serif; /* font-family */
   font-weight: bold;
-  margine-top:1px;
+  color: #303030;
+    
+  margine-top:5px;
+  padding:5px;
 
   `
